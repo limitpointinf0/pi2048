@@ -1,8 +1,10 @@
 const https = require('https');
-const API_TOKEN = '[API_TOKEN]'
+const API_TOKEN = process.env.PI_API;
 // console.log(inputs);
 const data = new TextEncoder().encode(
-    JSON.stringify({})
+    JSON.stringify({
+        txid: '753ab10de6419afabee3f3a8c3574ce89c1e5cf90ddf7b49bb09670655676cc9'
+    })
 );        
 const options = {
     hostname: 'api.minepi.com',
@@ -11,6 +13,7 @@ const options = {
     method: 'POST',
     headers: {
         'Authorization': 'Key ' + API_TOKEN,
+        'Content-Type': 'application/json'
     }
 };
 

@@ -30,10 +30,10 @@ parasails.registerPage('game', {
     //  ╩╝╚╝ ╩ ╚═╝╩╚═╩ ╩╚═╝ ╩ ╩╚═╝╝╚╝╚═╝
     methods: {
         // Pi Network
-        _onIncompletePaymentFound: async function(payment) {
+        onIncompletePaymentFound: async function(payment) {
           var self = this;
           const url = '/api/v1/finalize-payment/';
-          console.log(payment);
+          console.log('INCOMPLETE PAYMENT', payment);
           const data = {
             payment_id: payment.identifier,
             transaction_id: payment.transaction.txid,
@@ -50,7 +50,9 @@ parasails.registerPage('game', {
             success: function (data) {
               return data;
             },
-            error: function (data) { return data; }
+            error: function (data) { 
+              return data; 
+            }
           });
         },
         _piAuthen: async function() {
@@ -59,8 +61,7 @@ parasails.registerPage('game', {
             const Pi = window.Pi;
             Pi.init({ version: "2.0", sandbox:true });
             const scopes = ['username','payments'];
-
-            var username = await Pi.authenticate(scopes, self._onIncompletePaymentFound).then(function(auth) {
+            var username = await Pi.authenticate(scopes, self.onIncompletePaymentFound).then(function(auth) {
                 return auth.user.username;
             }).catch(function(error) {
                 alert(error);

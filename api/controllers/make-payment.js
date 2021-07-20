@@ -30,7 +30,7 @@ module.exports = {
   
   
     fn: async function (inputs) {
-        const API_TOKEN = '[API_TOKEN]'
+        const API_TOKEN = process.env.PI_API;
         console.log(inputs);
         const data = new TextEncoder().encode(
             JSON.stringify({})

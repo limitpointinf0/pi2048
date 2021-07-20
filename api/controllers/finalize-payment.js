@@ -16,7 +16,7 @@ module.exports = {
         },
 
         transaction_id: {
-            type: 'number',
+            type: 'string',
             description: 'txn ID'
         },
         
@@ -27,10 +27,12 @@ module.exports = {
   
   
     fn: async function (inputs) {
-        const API_TOKEN = '[API_TOKEN]'
+        const API_TOKEN = process.env.PI_API;
         console.log(inputs);
         const data = new TextEncoder().encode(
-            JSON.stringify({})
+            JSON.stringify({
+                txid: inputs.transaction_id
+            })
         );        
         const options = {
             hostname: 'api.minepi.com',
@@ -39,16 +41,16 @@ module.exports = {
             method: 'POST',
             headers: {
                 'Authorization': 'Key ' + API_TOKEN,
+                'Content-Type': 'application/json'
             }
         };
 
         const req = https.request(options, res => {
             console.log(`statusCode: ${res.statusCode}`)
-          
             res.on('data', d => {
               process.stdout.write(d)
             })
-          });
+        });
         
         req.on('error', error => {
             console.error(error)
