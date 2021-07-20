@@ -109,21 +109,23 @@ GameManager.prototype.setup = function () {
   var self = this;
   var amount = 0.001;
   var user = 'limitpointinf0';
-  self.afterPayment();
-  // Pi.createPayment({
-  //   // Amount of π to be paid:
-  //   amount: amount,
-  //   // An explanation of the payment - will be shown to the user:
-  //   memo: "gameplay", // e.g: "Digital kitten #1234",
-  //   // An arbitrary developer-provided metadata object - for your own usage:
-  //   metadata: { username: 'test' }, // e.g: { kittenId: 1234 }
-  // }, {
-  //   // Callbacks you need to implement - read more about those in the detailed docs linked below:
-  //   onReadyForServerApproval: function(paymentId) { console.log(paymentId); self.submitTransaction(paymentId, amount, user); },
-  //   onReadyForServerCompletion: function(paymentId, txid) { console.log(paymentId, txid); self.finalizeTransaction(paymentId, txid); },
-  //   onCancel: function(paymentId) { console.log(paymentId); self.afterPayment(); },
-  //   onError: function(error, payment) { console.log(error, payment); self.afterPayment(); },
-  // });
+
+  // GAME PAYMENT
+  // self.afterPayment();
+  Pi.createPayment({
+    // Amount of π to be paid:
+    amount: amount,
+    // An explanation of the payment - will be shown to the user:
+    memo: "gameplay", // e.g: "Digital kitten #1234",
+    // An arbitrary developer-provided metadata object - for your own usage:
+    metadata: { username: 'test' }, // e.g: { kittenId: 1234 }
+  }, {
+    // Callbacks you need to implement - read more about those in the detailed docs linked below:
+    onReadyForServerApproval: function(paymentId) { console.log(paymentId); self.submitTransaction(paymentId, amount, user); },
+    onReadyForServerCompletion: function(paymentId, txid) { console.log(paymentId, txid); self.finalizeTransaction(paymentId, txid); },
+    onCancel: function(paymentId) { console.log(paymentId); self.afterPayment(); },
+    onError: function(error, payment) { console.log(error, payment); self.afterPayment(); },
+  });
 };
 
 // Set up the initial tiles to start the game with
